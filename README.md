@@ -127,4 +127,4 @@ make run_client
 ```
 
 
-![gRPC_postman_response](https://github.com/faisal-porag/basic_grpc_example_with_golang/files/grpc_postman_response.png?raw=true)
+![gRPC_postman_response](https://github.com/faisal-porag/basic_grpc_example_with_golang/blob/master/files/grpc_postman_response.png?raw=true)
