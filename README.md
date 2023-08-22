@@ -35,7 +35,8 @@
         details/details.proto
     ```
     This will generate Go code for your service and messages in the specified directory.
-    ****NOTE**** IF GETTING ANY ERROR WHILE EXECUTE `protoc` command then execute below commands
+
+    ****NOTE::**** If you're getting any error while execute `protoc` command then execute below commands on your terminal 
 
     ```shell
     go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
@@ -43,7 +44,6 @@
     ```shell
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
     ```
-
 
 - `Implement gRPC Server:`
     - Create a Go file to implement the gRPC server.
@@ -138,3 +138,6 @@ make run_client
 ![gRPC_postman_response](https://github.com/faisal-porag/basic_grpc_example_with_golang/blob/master/files/grpc_postman_response.png?raw=true)
 
 
+--- 
+
+Thanks
