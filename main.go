@@ -26,7 +26,7 @@ func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*
 		Code:    "SUCCESS",
 		Message: "Your request is success",
 		Lang:    "en",
-		Data: &details.CommonResponse{
+		Data: &details.DataResponse{
 			Name:  "My name is " + name,
 			Age:   age,
 			Email: req.Email,

@@ -10,7 +10,7 @@ message DetailsRequest {
   string email = 3;
 }
 
-message CommonResponse {
+message DataResponse {
   string name = 1;
   int32 age = 2;
   string email = 3;
@@ -20,7 +20,7 @@ message DetailsResponse {
   string code = 1;
   string message = 2;
   string lang = 3;
-  CommonResponse data = 4;
+  DataResponse data = 4;
 
 }
 
