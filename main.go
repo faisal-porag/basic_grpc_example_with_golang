@@ -37,7 +37,7 @@ func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*
 }
 
 func StartGRPCServer() {
-	listen, err := net.Listen("tcp", ":50051")
+	listen, err := net.Listen("tcp", ":5005")
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return
@@ -46,7 +46,7 @@ func StartGRPCServer() {
 	srv := grpc.NewServer()
 	details.RegisterDetailsServiceServer(srv, &server{})
 
-	fmt.Println("Server listening on port 50051")
+	fmt.Println("Server listening on port 5005")
 	go func() {
 		if err := srv.Serve(listen); err != nil {
 			fmt.Printf("Error: %v", err)
