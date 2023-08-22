@@ -114,3 +114,15 @@
 > It's important to refactor your logic to fit the gRPC model effectively.
 
 
+###### Project test instructions
+
+- `For run server service:`
+```shell
+  make run_server
+```
+
+- `For run client service:`
+```shell
+make run_client
+```
+

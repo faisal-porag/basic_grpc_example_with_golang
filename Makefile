@@ -9,3 +9,11 @@ generate_tprotos_protoc:
         --go-grpc_out=. --go-grpc_opt=paths=source_relative \
         tprotos/tprotos.proto
 
+
+run_server:
+	go run main.go
+
+
+run_client:
+	go run client/main.go
+
