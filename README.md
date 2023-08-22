@@ -43,36 +43,74 @@
     - The methods should accept and return the protobuf message types you defined.
     
     ```shell
-        package main
+    package main
+
+    import (
+        "context"
+        "log"
+        "net"
     
-        import (
-            "context"
-            "log"
-            "net"
-        
-            "google.golang.org/grpc"
-            pb "path/to/your/generated/proto/package"
-        )
-        
-        type server struct {
-            pb.UnimplementedMyServiceServer
+        "google.golang.org/grpc"
+        pb "path/to/your/generated/proto/package"
+    )
+    
+    type server struct {
+        pb.UnimplementedMyServiceServer
+    }
+    
+    func (s *server) MyMethod(ctx context.Context, req *pb.MyRequest) (*pb.MyResponse, error) {
+        // Implement your logic here
+        // Create a MyResponse instance and return
+    }
+    
+    func main() {
+        lis, err := net.Listen("tcp", ":50051")
+        if err != nil {
+            log.Fatalf("failed to listen: %v", err)
         }
-        
-        func (s *server) MyMethod(ctx context.Context, req *pb.MyRequest) (*pb.MyResponse, error) {
-            // Implement your logic here
-            // Create a MyResponse instance and return
+        s := grpc.NewServer()
+        pb.RegisterMyServiceServer(s, &server{})
+        if err := s.Serve(lis); err != nil {
+            log.Fatalf("failed to serve: %v", err)
         }
-        
-        func main() {
-            lis, err := net.Listen("tcp", ":50051")
-            if err != nil {
-                log.Fatalf("failed to listen: %v", err)
-            }
-            s := grpc.NewServer()
-            pb.RegisterMyServiceServer(s, &server{})
-            if err := s.Serve(lis); err != nil {
-                log.Fatalf("failed to serve: %v", err)
-            }
-        }
+    }
     ```
-  
+
+- `Client Implementation:`
+    - Create a client to communicate with the gRPC server.
+    - Import the generated protobuf package.
+    - Use the generated client code to make calls to the gRPC methods.
+
+    ```shell
+    package main
+    
+    import (
+        "context"
+        "log"
+    
+        "google.golang.org/grpc"
+        pb "path/to/your/generated/proto/package"
+    )
+    
+    func main() {
+        conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+        if err != nil {
+            log.Fatalf("did not connect: %v", err)
+        }
+        defer conn.Close()
+        client := pb.NewMyServiceClient(conn)
+    
+        // Create a context and call gRPC methods using the client
+    }
+    ```
+
+- `Error Handling and Interceptors:`
+    - Implement proper error handling in your server and client code.
+    - Consider using gRPC interceptors for additional functionality like logging, authentication, etc.
+
+
+> *****NOTE::***** Remember that gRPC and REST have different paradigms, so the way you structure your communication and handle errors might differ.
+> Also, gRPC offers benefits like strong typing, automatic code generation, and support for streaming. 
+> It's important to refactor your logic to fit the gRPC model effectively.
+
+
