@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package tprotos;
+
+option go_package = "./tprotos";
+
+message TProtoRequest {
+  string name = 1;
+}
+
+message TProtoResponse {
+  string name = 2;
+
+}
+
+service DetailsService {
+  rpc GetTProto(TProtoRequest) returns (TProtoResponse);
+}
