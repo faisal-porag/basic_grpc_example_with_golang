@@ -3,9 +3,9 @@
 ###### Some steps are given below:
 
 - `Define Protobuf Messages and Services:`
-    - Start by defining your service interface and messages in a .proto file using Protocol Buffers. 
+    - Start by defining your service interface and messages in a `.proto` file using Protocol Buffers. 
         This includes specifying the request and response message types for each endpoint.
-    - Define the service itself using the service keyword.
+    - Define the service itself using the `service` keyword.
 
     ```shell
     syntax = "proto3";
