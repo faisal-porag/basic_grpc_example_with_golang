@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Set up a connection to the server
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:5005", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
 	}
@@ -36,7 +36,7 @@ func main() {
 	fmt.Printf("%v\n", response)
 
 	// Print the response
-	fmt.Printf("Name: %s\n", response.Name)
-	fmt.Printf("Age: %d\n", response.Age)
-	fmt.Printf("Email: %s\n", response.Email)
+	fmt.Printf("Name: %s\n", response.Data.Name)
+	fmt.Printf("Age: %d\n", response.Data.Age)
+	fmt.Printf("Email: %s\n", response.Data.Email)
 }
