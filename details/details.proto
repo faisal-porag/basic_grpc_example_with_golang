@@ -26,4 +26,5 @@ message DetailsResponse {
 
 service DetailsService {
   rpc GetDetails(DetailsRequest) returns (DetailsResponse);
+  rpc GetDetailsWithAuthorization(DetailsRequest) returns (DetailsResponse);
 }

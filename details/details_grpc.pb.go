@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DetailsServiceClient interface {
 	GetDetails(ctx context.Context, in *DetailsRequest, opts ...grpc.CallOption) (*DetailsResponse, error)
+	GetDetailsWithAuthorization(ctx context.Context, in *DetailsRequest, opts ...grpc.CallOption) (*DetailsResponse, error)
 }
 
 type detailsServiceClient struct {
@@ -38,11 +39,21 @@ func (c *detailsServiceClient) GetDetails(ctx context.Context, in *DetailsReques
 	return out, nil
 }
 
+func (c *detailsServiceClient) GetDetailsWithAuthorization(ctx context.Context, in *DetailsRequest, opts ...grpc.CallOption) (*DetailsResponse, error) {
+	out := new(DetailsResponse)
+	err := c.cc.Invoke(ctx, "/details.DetailsService/GetDetailsWithAuthorization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DetailsServiceServer is the server API for DetailsService service.
 // All implementations must embed UnimplementedDetailsServiceServer
 // for forward compatibility
 type DetailsServiceServer interface {
 	GetDetails(context.Context, *DetailsRequest) (*DetailsResponse, error)
+	GetDetailsWithAuthorization(context.Context, *DetailsRequest) (*DetailsResponse, error)
 	mustEmbedUnimplementedDetailsServiceServer()
 }
 
@@ -52,6 +63,9 @@ type UnimplementedDetailsServiceServer struct {
 
 func (UnimplementedDetailsServiceServer) GetDetails(context.Context, *DetailsRequest) (*DetailsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDetails not implemented")
+}
+func (UnimplementedDetailsServiceServer) GetDetailsWithAuthorization(context.Context, *DetailsRequest) (*DetailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDetailsWithAuthorization not implemented")
 }
 func (UnimplementedDetailsServiceServer) mustEmbedUnimplementedDetailsServiceServer() {}
 
@@ -84,6 +98,24 @@ func _DetailsService_GetDetails_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DetailsService_GetDetailsWithAuthorization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DetailsServiceServer).GetDetailsWithAuthorization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/details.DetailsService/GetDetailsWithAuthorization",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DetailsServiceServer).GetDetailsWithAuthorization(ctx, req.(*DetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DetailsService_ServiceDesc is the grpc.ServiceDesc for DetailsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +126,10 @@ var DetailsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDetails",
 			Handler:    _DetailsService_GetDetails_Handler,
+		},
+		{
+			MethodName: "GetDetailsWithAuthorization",
+			Handler:    _DetailsService_GetDetailsWithAuthorization_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

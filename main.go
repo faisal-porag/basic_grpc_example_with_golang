@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"google.golang.org/grpc"
+	"grpc_sample/service_middleware"
 	"log"
 	"net"
 	"net/http"
@@ -18,6 +19,31 @@ type server struct {
 
 func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*details.DetailsResponse, error) {
 	log.Println("triggered .....")
+	// Simulate fetching details from a database or source
+	name := req.Name
+	age := req.Age
+
+	response := &details.DetailsResponse{
+		Code:    "SUCCESS",
+		Message: "Your request is success",
+		Lang:    "en",
+		Data: &details.DataResponse{
+			Name:  "My name is " + name,
+			Age:   age,
+			Email: req.Email,
+		},
+	}
+
+	return response, nil
+}
+
+func (s *server) GetDetailsWithAuthorization(ctx context.Context, req *details.DetailsRequest) (*details.DetailsResponse, error) {
+	log.Println("triggered .....")
+	// Check if the request has valid authorization
+	if err := service_middleware.CheckAuthorizationMiddleware(ctx); err != nil {
+		return nil, err
+	}
+
 	// Simulate fetching details from a database or source
 	name := req.Name
 	age := req.Age
