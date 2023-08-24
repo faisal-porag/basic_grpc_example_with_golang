@@ -45,10 +45,14 @@
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
     ```
 
-- `Implement gRPC Server:`
-    - Create a Go file to implement the gRPC server.
-    - Implement the methods defined in your service interface.
-    - The methods should accept and return the protobuf message types you defined.
+  - `Implement gRPC Server:`
+      - Create a Go file to implement the gRPC server.
+      - Implement the methods defined in your service interface.
+      - The methods should accept and return the protobuf message types you defined.
+  
+    ```shell
+    go get google.golang.org/grpc
+    ```
     
     ```shell
     package main
