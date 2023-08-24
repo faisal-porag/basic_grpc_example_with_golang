@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+	"grpc_sample/utils"
 	"strings"
 )
 
@@ -39,7 +40,7 @@ func CheckAuthorizationMiddleware(ctx context.Context) error {
 		}
 	}
 
-	tokenSecret := "your_secret_key" // Replace with your secret key from .env
+	tokenSecret := utils.JwtSecretKey // Replace with your secret key from .env
 	token, err := jwt.Parse(tokenParts[1], func(token *jwt.Token) (interface{}, error) {
 		// Make sure the signing method is correct
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
 	"google.golang.org/grpc/metadata"
+	"grpc_sample/utils"
 	"log"
 	"time"
 
@@ -42,6 +43,11 @@ func main() {
 	fmt.Printf("Name: %s\n", response.Data.Name)
 	fmt.Printf("Age: %d\n", response.Data.Age)
 	fmt.Printf("Email: %s\n", response.Data.Email)
+
+	fmt.Printf("=========================================")
+	fmt.Println()
+
+	GetDetailsInfoWithAuth()
 }
 
 func GetDetailsInfoWithAuth() {
@@ -61,13 +67,13 @@ func GetDetailsInfoWithAuth() {
 
 	// Prepare the request
 	req := &details.DetailsRequest{
-		Name:  "John Doe",
+		Name:  "Faisal Porag",
 		Age:   30,
 		Email: "john@example.com",
 	}
 
 	// Call the GetDetails RPC
-	response, err := client.GetDetails(ctx, req)
+	response, err := client.GetDetailsWithAuthorization(ctx, req)
 	if err != nil {
 		log.Fatalf("Error calling GetDetails: %v", err)
 	}
@@ -80,17 +86,10 @@ func GetDetailsInfoWithAuth() {
 	fmt.Printf("Email: %s\n", response.Data.Email)
 }
 
-type Claims struct {
-	jwt.RegisteredClaims
-}
-
-// Create the JWT key used to create the signature
-var jwtKey = []byte("your_secret_key")
-
 func generateServiceToken() string {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	// Create the JWT claims, which includes the username and expiry time
-	claims := &Claims{
+	claims := &utils.ServiceAuthClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
@@ -100,7 +99,7 @@ func generateServiceToken() string {
 	// Declare the token with the algorithm used for signing, and the claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// Create the JWT string
-	tokenString, err := token.SignedString(jwtKey)
+	tokenString, err := token.SignedString(utils.JwtSecretKey)
 	if err != nil {
 		return ""
 	}

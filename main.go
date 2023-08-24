@@ -7,6 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"google.golang.org/grpc"
 	"grpc_sample/service_middleware"
+	"grpc_sample/utils"
 	"log"
 	"net"
 	"net/http"
@@ -20,7 +21,7 @@ type server struct {
 }
 
 func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*details.DetailsResponse, error) {
-	log.Println("triggered .....")
+	log.Println("triggered ...GetDetails...")
 	// Simulate fetching details from a database or source
 	name := req.Name
 	age := req.Age
@@ -40,7 +41,7 @@ func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*
 }
 
 func (s *server) GetDetailsWithAuthorization(ctx context.Context, req *details.DetailsRequest) (*details.DetailsResponse, error) {
-	log.Println("triggered .....")
+	log.Println("triggered ...GetDetailsWithAuthorization...")
 	// Check if the request has valid authorization
 	if err := service_middleware.CheckAuthorizationMiddleware(ctx); err != nil {
 		return nil, err
@@ -116,19 +117,12 @@ func handleRestRequest(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(jsonData)
 }
 
-type Claims struct {
-	jwt.RegisteredClaims
-}
-
-// Create the JWT key used to create the signature
-var jwtKey = []byte("your_secret_key")
-
 func handleCreateTokenRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	expirationTime := time.Now().Add(24 * time.Hour)
 	// Create the JWT claims, which includes the username and expiry time
-	claims := &Claims{
+	claims := &utils.ServiceAuthClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
@@ -138,7 +132,7 @@ func handleCreateTokenRequest(w http.ResponseWriter, r *http.Request) {
 	// Declare the token with the algorithm used for signing, and the claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// Create the JWT string
-	tokenString, err := token.SignedString(jwtKey)
+	tokenString, err := token.SignedString(utils.JwtSecretKey)
 	if err != nil {
 		// If there is an error in creating the JWT return an internal server error
 		w.WriteHeader(http.StatusInternalServerError)
