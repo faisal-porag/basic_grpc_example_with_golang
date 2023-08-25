@@ -13,7 +13,7 @@ import (
 	"net/http"
 	"time"
 
-	"grpc_sample/details" // Adjust the import path
+	"grpc_sample/details"
 )
 
 type server struct {
