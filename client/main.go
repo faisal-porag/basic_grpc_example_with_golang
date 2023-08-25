@@ -26,9 +26,9 @@ func main() {
 
 	// Prepare the request
 	req := &details.DetailsRequest{
-		Name:  "John Doe",
-		Age:   30,
-		Email: "john@example.com",
+		Name:  "Faisal Porag",
+		Age:   29,
+		Email: "faisal@example.com",
 	}
 
 	// Call the GetDetails RPC
@@ -68,8 +68,8 @@ func GetDetailsInfoWithAuth() {
 	// Prepare the request
 	req := &details.DetailsRequest{
 		Name:  "Faisal Porag",
-		Age:   30,
-		Email: "john@example.com",
+		Age:   29,
+		Email: "porag@example.com",
 	}
 
 	// Call the GetDetails RPC
