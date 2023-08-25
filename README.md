@@ -37,6 +37,10 @@ scaling and allows teams to work on different services concurrently.
     - Run the following command to generate Go code:
 
     ```shell
+    sudo apt install -y protobuf-compiler
+    ```
+
+    ```shell
     protoc --go_out=. --go_opt=paths=source_relative \
         --go-grpc_out=. --go-grpc_opt=paths=source_relative \
         details/details.proto
