@@ -23,6 +23,7 @@ message DataResponse {
   int32 age = 2;
   string email = 3;
   repeated AddressResponse address = 4;
+  double balance = 5;
 }
 
 message DetailsResponse {

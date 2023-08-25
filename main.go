@@ -54,6 +54,7 @@ func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*
 			Age:     req.Age,
 			Email:   req.Email,
 			Address: addresses,
+			Balance: 5.40,
 		},
 	}
 
