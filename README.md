@@ -35,11 +35,12 @@ scaling and allows teams to work on different services concurrently.
 - `Generate gRPC Code:`
     - Use the `protoc` compiler to generate the gRPC code from your `.proto` file.
     - Run the following command to generate Go code:
-  
-    ```
+
+
+    ```shell
     sudo apt install -y protobuf-compiler
     ```
-  
+
     ```shell
     protoc --go_out=. --go_opt=paths=source_relative \
         --go-grpc_out=. --go-grpc_opt=paths=source_relative \
@@ -150,7 +151,7 @@ make run_client
 ```
 
 
-![gRPC_postman_response](https://github.com/faisal-porag/basic_grpc_example_with_golang/blob/dev_branch/files/grpc_postman_response.png?raw=true)
+![gRPC_postman_response](https://github.com/faisal-porag/basic_grpc_example_with_golang/blob/master/files/grpc_postman_response.png?raw=true)
 
 ---
 
