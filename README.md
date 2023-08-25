@@ -36,6 +36,7 @@ scaling and allows teams to work on different services concurrently.
     - Use the `protoc` compiler to generate the gRPC code from your `.proto` file.
     - Run the following command to generate Go code:
 
+
     ```shell
     sudo apt install -y protobuf-compiler
     ```
