@@ -40,7 +40,10 @@ func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*
 	}
 
 	// Add addresses to the array
-	addresses := []*details.AddressResponse{address1, address2}
+	var addresses []*details.AddressResponse
+	if req.IsShowAddress {
+		addresses = append(addresses, address1, address2)
+	}
 
 	response := &details.DetailsResponse{
 		Code:    "SUCCESS",
