@@ -22,18 +22,35 @@ type server struct {
 
 func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*details.DetailsResponse, error) {
 	log.Println("triggered ...GetDetails...")
+
 	// Simulate fetching details from a database or source
-	name := req.Name
-	age := req.Age
+	// Create multiple addresses
+	address1 := &details.AddressResponse{
+		Street:   "123 Main Street",
+		Area:     "Downtown",
+		City:     "Cityville",
+		District: "Central District",
+	}
+
+	address2 := &details.AddressResponse{
+		Street:   "456 Elm Avenue",
+		Area:     "Suburbia",
+		City:     "Townsville",
+		District: "North District",
+	}
+
+	// Add addresses to the array
+	addresses := []*details.AddressResponse{address1, address2}
 
 	response := &details.DetailsResponse{
 		Code:    "SUCCESS",
 		Message: "Your request is success",
 		Lang:    "en",
 		Data: &details.DataResponse{
-			Name:  "My name is " + name,
-			Age:   age,
-			Email: req.Email,
+			Name:    "My name is " + req.Name,
+			Age:     req.Age,
+			Email:   req.Email,
+			Address: addresses,
 		},
 	}
 
