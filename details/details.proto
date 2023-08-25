@@ -10,10 +10,18 @@ message DetailsRequest {
   string email = 3;
 }
 
+message AddressResponse{
+  string street = 1;
+  string area = 2;
+  string city = 3;
+  string district = 4;
+}
+
 message DataResponse {
   string name = 1;
   int32 age = 2;
   string email = 3;
+  repeated AddressResponse address = 4;
 }
 
 message DetailsResponse {
