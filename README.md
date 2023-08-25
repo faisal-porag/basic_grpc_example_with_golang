@@ -1,5 +1,12 @@
 ##### Basic gRPC(Remote Procedure Call) example with Golang
 
+gRPC is a high-performance, open-source universal RPC (Remote Procedure Call) framework developers 
+use to build highly scalable and distributed systems. It uses Protobuf (protocol buffers) as its 
+interface definition language, which allows for a reliable way to define services and message types.
+Microservices architecture is a way of designing software applications as suites of independently 
+deployable services. It's a popular architecture for complex, evolving systems because it allows for 
+scaling and allows teams to work on different services concurrently.
+
 ###### Some steps are given below:
 
 - `Define Protobuf Messages and Services:`
