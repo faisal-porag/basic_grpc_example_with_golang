@@ -12,11 +12,6 @@ import (
 	"strings"
 )
 
-var allowedTokenTypes = []string{
-	"jwt",
-	"bearer",
-}
-
 func CheckAuthorizationMiddleware(ctx context.Context) error {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
@@ -35,7 +30,7 @@ func CheckAuthorizationMiddleware(ctx context.Context) error {
 	if len(tokenParts) != 2 {
 		return status.Errorf(codes.PermissionDenied, "Invalid authorization token format")
 	} else {
-		if !slices.Contains(allowedTokenTypes, strings.ToLower(tokenParts[0])) {
+		if !slices.Contains(utils.AllowedTokenTypes, strings.ToLower(tokenParts[0])) {
 			return status.Errorf(codes.PermissionDenied, "Invalid authorization token format")
 		}
 	}
@@ -46,7 +41,7 @@ func CheckAuthorizationMiddleware(ctx context.Context) error {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(tokenSecret), nil
+		return tokenSecret, nil
 	})
 	if err != nil || !token.Valid {
 		return status.Errorf(codes.PermissionDenied, "Invalid authorization token")
