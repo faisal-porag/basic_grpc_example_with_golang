@@ -13,6 +13,6 @@ message TProtoResponse {
 
 }
 
-service DetailsService {
+service TProtoService {
   rpc GetTProto(TProtoRequest) returns (TProtoResponse);
 }

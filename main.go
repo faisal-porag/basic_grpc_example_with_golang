@@ -7,6 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"google.golang.org/grpc"
 	"grpc_sample/service_middleware"
+	"grpc_sample/tprotos"
 	"grpc_sample/utils"
 	"log"
 	"net"
@@ -18,6 +19,10 @@ import (
 
 type server struct {
 	details.UnimplementedDetailsServiceServer
+}
+
+type tProtoServer struct {
+	tprotos.UnimplementedTProtoServiceServer
 }
 
 func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*details.DetailsResponse, error) {
@@ -40,7 +45,10 @@ func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*
 	}
 
 	// Add addresses to the array
-	addresses := []*details.AddressResponse{address1, address2}
+	var addresses []*details.AddressResponse
+	if req.IsShowAddress {
+		addresses = append(addresses, address1, address2)
+	}
 
 	response := &details.DetailsResponse{
 		Code:    "SUCCESS",
@@ -51,6 +59,7 @@ func (s *server) GetDetails(ctx context.Context, req *details.DetailsRequest) (*
 			Age:     req.Age,
 			Email:   req.Email,
 			Address: addresses,
+			Balance: 5.40,
 		},
 	}
 
@@ -82,6 +91,16 @@ func (s *server) GetDetailsWithAuthorization(ctx context.Context, req *details.D
 	return response, nil
 }
 
+func (ts *tProtoServer) GetTProto(ctx context.Context, req *tprotos.TProtoRequest) (*tprotos.TProtoResponse, error) {
+	log.Println("triggered ...GetTProto...")
+
+	response := &tprotos.TProtoResponse{
+		Name: req.Name,
+	}
+
+	return response, nil
+}
+
 func StartGRPCServer() {
 	listen, err := net.Listen("tcp", ":5005")
 	if err != nil {
@@ -91,6 +110,7 @@ func StartGRPCServer() {
 
 	srv := grpc.NewServer()
 	details.RegisterDetailsServiceServer(srv, &server{})
+	tprotos.RegisterTProtoServiceServer(srv, &tProtoServer{})
 
 	fmt.Println("Server listening on port 5005")
 	go func() {
