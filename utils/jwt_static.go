@@ -6,4 +6,4 @@ type ServiceAuthClaims struct {
 	jwt.RegisteredClaims
 }
 
-var JwtSecretKey = []byte("$%^HSBS@#fg$5HJ^dshfsd657hbb")
+var JwtSecretKey = []byte("$%^HSBS@#fg$5HJ^dshfsd657hb%45^5b")
